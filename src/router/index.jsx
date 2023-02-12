@@ -101,6 +101,7 @@ const ChangePasswordSettings = lazy(() =>
   import("../screens/settings/ChangePassword")
 );
 const GeneralSettings = lazy(() => import("../screens/settings/General"));
+const DeleteAccount = lazy(() => import("../screens/settings/DeleteAccount"));
 
 //search
 const Search = lazy(() => import("../screens/Search"));
@@ -191,12 +192,21 @@ export default function AppRouter() {
         <Route path="" element={<MessengerHome />} />
         <Route path="/:userId" element={<Chat />} />
       </Route>
+      {/* about  */}
+      <Route path="/about" element={<ProfileAboutLayout />}>
+        <Route path="" element={<ProfileAboutOverview />} />
+        <Route path="education" element={<ProfileAboutEducation />} />
+        <Route path="place" element={<ProfileAboutPlace />} />
+        <Route path="contact" element={<ProfileAboutContact />} />
+        <Route path="life_events" element={<ProfileAboutLifeEvent />} />
+      </Route>
 
       <Route path="/settings" element={<SettingsLayout />}>
         <Route path="" element={<SettingsHome />} />
         <Route path="general_settings" element={<GeneralSettings />} />
         <Route path="login_history" element={<LoginHistory />} />
         <Route path="change_password" element={<ChangePasswordSettings />} />
+        <Route path="delete_account" element={<DeleteAccount />} />
       </Route>
     </Routes>
   );

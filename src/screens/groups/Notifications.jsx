@@ -26,18 +26,18 @@ export default function GroupNotifications() {
           fallback={<Empty title="No Notifications" />}
         >
           <div className="max-w-md mx-auto bg-white shadow-md dark:bg-gray-800 p-4 rounded-lg">
-            <h4 className="text-2xl font-bold">Notifications</h4>
+            <h3 className="text-2xl font-bold">Notifications</h3>
             <ul className="flex flex-col space-y-4 mt-4">
               <For each={resource().data.data.notifications}>
                 {(notif) => (
                   <li className="rounded-lg flex space-x-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer px-2 py-2">
-                    <div className="relative">
+                    <div className="relative flex-none">
                       <UserAvatar
                         src={notif.fromUser.profileImage}
                         className="w-14 h-14 rounded-full flex-none"
                         alt={notif.fromUser.firstName}
                       />
-                      <div className="absolute bottom-0 right-0 w-6 h-6 grid place-items-center rounded-full bg-purple-500 text-white">
+                      <div className="absolute right-0 top-10 w-6 h-6 grid place-items-center rounded-full bg-purple-500 text-white">
                         <FaSolidUsers />
                       </div>
                     </div>
@@ -54,7 +54,7 @@ export default function GroupNotifications() {
                         <span>{notif.content}</span>
                       </p>
 
-                      <span className="text-xs font-bold text-blue-500">
+                      <span className="text-xs font-bold text-blue-600">
                         {getRelativeTime(notif.createdAt)}
                       </span>
                     </div>

@@ -4,6 +4,7 @@ import Feelings from "../../components/posts/create/Feelings";
 import ImageUpload from "../../components/shared/ImageUpload";
 import SpecificFriends from "../../components/posts/create/SpecificFriends";
 import TagPeople from "../../components/posts/create/TagPeople";
+import Spinner from "../../components/spinner/Spinner";
 import useCreatePost from "../../hooks/post/useCreatePost";
 import { Show } from "solid-js";
 
@@ -77,6 +78,7 @@ export default function Create() {
             image={form.image}
             addImage={addImage}
             removeImage={removeImage}
+            sizeLimit="extended"
           >
             <BsImages className="text-green-500" />
           </ImageUpload>
@@ -92,9 +94,13 @@ export default function Create() {
           <button
             disabled={loading()}
             type="submit"
-            className="w-full  py-2 px-3 bg-blue-500 text-white rounded-md text-lg"
+            className="w-full  py-2 px-3 bg-blue-600 text-white rounded-md text-lg"
+            classList={{
+              "bg-blue-300 cursor-not-allowed": loading(),
+              "bg-blue-500": !loading()
+            }}
           >
-            <Show when={!loading()} fallback={"Creating Post..."}>
+            <Show when={!loading()} fallback={Spinner}>
               Create
             </Show>
           </button>

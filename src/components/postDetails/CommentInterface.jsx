@@ -1,9 +1,12 @@
+import { createSignal } from "solid-js";
 import useCreateComment from "../../hooks/comment/useCreateComment";
 
 export default function CommentInterface(props) {
   const { handleInput, handleSubmit, form } = useCreateComment(
-    props.refetchComment
+    props.refetchComment,
+    props.refetchPost
   );
+  // const [isEmpty, setIsEmpty] = createSignal(true);
   return (
     <form onSubmit={handleSubmit}>
       <textarea
@@ -11,7 +14,7 @@ export default function CommentInterface(props) {
         id="content"
         rows="5"
         placeholder="Start comment..."
-        className="w-full rounded-xl dark:bg-gray-700"
+        className="w-full rounded-xl dark:bg-gray-700 mb-2"
         value={form.content}
         onInput={handleInput}
         required
@@ -19,7 +22,11 @@ export default function CommentInterface(props) {
       ></textarea>
       <button
         type="submit"
-        className="px-4 py-2  bg-blue-400 hover:bg-blue-500 text-white rounded-full float-right"
+        className={
+          "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full float-right "
+        }
+        classList={{ ["opacity-60"]: !form.content }}
+        disabled={!form.content}
       >
         Comment
       </button>

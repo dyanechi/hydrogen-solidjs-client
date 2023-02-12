@@ -8,6 +8,7 @@ import { fetchUserDetails } from "../../services/user.service";
 import { useAuthState } from "../../context/auth";
 import HydrogenLoader from "../../components/shared/HydrogenLoader";
 import Error from "../../components/shared/Error";
+import UserStatusAvatar from "../../components/ui/dataDisplay/UserStatusAvatar";
 export default function Profile() {
   const params = useParams();
   const userState = useAuthState();
@@ -63,10 +64,15 @@ export default function Profile() {
                 <div className="absolute -bottom-20 md:-bottom-28 left-1/2 md:left-4 -translate-x-1/2 md:-translate-x-0">
                   <div className="relative">
                     {/* avatar profile image  */}
-                    <img
-                      src={resource().data.data.user.profileImage}
+                    {/* Closes Enhancement #49 In user profile page show user last seen info and user active status*/}
+
+                    <UserStatusAvatar
                       alt={resource().data.data.user.firstName}
-                      className="w-40 h-40 rounded-full aspect-auto object-cover p-1 bg-blue-200 dark:bg-blue-300"
+                      imgClass="w-40 h-40 rounded-full aspect-auto object-cover p-1"
+                      profileImage={resource().data.data.user.profileImage}
+                      status={resource().data.data.user.status}
+                      statusClass="top-2 right-5"
+                      showStatus={false}
                     />
 
                     <Show
@@ -90,29 +96,37 @@ export default function Profile() {
                     </Show>
                   </div>
                 </div>
-                <Show when={userState?.currentUser.id === resource().data.data.user.id}>
+                <Show
+                  when={
+                    userState?.currentUser.id === resource().data.data.user.id
+                  }
+                >
                   <div className="absolute right-0 bottom-0 p-3">
                     {/* change cover image  */}
                     <ImageUpload
-                      btnClass="py-2 px-4 rounded-lg flex items-center space-x-2 bg-blue-400 text-white font-medium hover:bg-blue-500"
+                      btnClass="py-2 px-4 rounded-lg flex items-center space-x-2 bg-blue-600 text-white font-medium hover:bg-blue-500"
                       image={form.coverImage}
                       addImage={addCoverImage}
                       removeImage={removeCoverImage}
                       onDone={handleUploadProfilePic}
+                      sizeLimit="extended"
                     >
                       <FaSolidCamera />
                       <span className="hidden md:block">Add Cover Photo</span>
                     </ImageUpload>
                   </div>
                 </Show>
-
+                {/* Closes Enhancement #49 In user profile page show user last seen info and user active status*/}
                 <ProfileInfo
+                  firstName={resource().data.data.user.firstName}
                   friendsCount={resource().data.data.user._count.myFriends}
                   friends={resource().data.data.user.myFriends}
-                  firstName={resource().data.data.user.firstName}
                   lastName={resource().data.data.user.lastName}
                   userId={resource().data.data.user.id}
                   refetch={refetch}
+                  lastSeen={resource().data.data.user.lastSeen}
+                  status={resource().data.data.user.status}
+                  createdAt={resource().data.data.user.createdAt}
                 />
               </div>
             </Show>
@@ -158,6 +172,11 @@ const tabs = [
     end: true,
   },
 
+  {
+    name: "About",
+    href: "about",
+    end: false,
+  },
   {
     name: "Friends",
     href: "friends",
